@@ -1,7 +1,11 @@
 ﻿using System;
 namespace ZooManager
 {
-    public class Mouse : Animal
+    /// <summary>
+    /// This class represents mouse, use the Irunner interface.
+    /// mouse: run from cat and raptor. can move 2 steps when find a raptor
+    /// </summary>
+    public class Mouse : Animal, Irunner 
     {
         public Mouse(string name)
         {
@@ -9,11 +13,12 @@ namespace ZooManager
             species = "mouse";
             this.name = name; // "this" to clarify instance vs. method parameter
             reactionTime = new Random().Next(1, 4); // reaction time of 1 (fast) to 3
-            /* Note that Mouse reactionTime range is smaller than Cat reactionTime,
-             * so mice are more likely to react to their surroundings faster than cats!
-             */
         }
 
+        /// <summary>
+        /// Activate all behaviours of mouse.
+        /// </summary>
+        /// <returns>void</returns>
         public override void Activate()
         {
             base.Activate();
@@ -22,35 +27,36 @@ namespace ZooManager
             Flee();
         }
 
-        /* Note that our mouse is (so far) a teeny bit more strategic than our cat.
-         * The mouse looks for cats and tries to run in the opposite direction to
-         * an empty spot, but if it finds that it can't go that way, it looks around
-         * some more. However, the mouse currently still has a major weakness! He
-         * will ONLY run in the OPPOSITE direction from a cat! The mouse won't (yet)
-         * consider running to the side to escape! However, we have laid out a better
-         * foundation here for intelligence, since we actually check whether our escape
-         * was succcesful -- unlike our cats, who just assume they'll get their prey!
-         */
-        public void Flee()
+        /// <summary>
+        /// Checking four direction( in one step) and retreat if cat is detected
+        /// </summary>
+        /// <returns>the boolean represents whether the mouse retreat successfully</returns>
+        public bool Flee()
         {
             if (Behaviour.Seek(location.x, location.y, Direction.up, "cat")==1)
             {
-                if (Behaviour.Retreat(this, Direction.down)) return;
+                if (Behaviour.Retreat(this, Direction.down)) return true;
             }
             if (Behaviour.Seek(location.x, location.y, Direction.down, "cat")==1)
             {
-                if (Behaviour.Retreat(this, Direction.up)) return;
+                if (Behaviour.Retreat(this, Direction.up)) return true;
             }
             if (Behaviour.Seek(location.x, location.y, Direction.left, "cat")==1)
             {
-                if (Behaviour.Retreat(this, Direction.right)) return;
+                if (Behaviour.Retreat(this, Direction.right)) return true;
             }
             if (Behaviour.Seek(location.x, location.y, Direction.right, "cat")==1)
             {
-                if (Behaviour.Retreat(this, Direction.left)) return;
+                if (Behaviour.Retreat(this, Direction.left)) return true;
             }
+            return false;
         }
-        private void MoveRandom()
+
+        /// <summary>
+        /// Checking four direction( in two steps ) and move two steps randomly if raptor is detected
+        /// </summary>
+        /// <returns>void</returns>
+        public void MoveRandom()
         {
             int steps = 0;
             Random rnd = new Random();

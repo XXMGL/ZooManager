@@ -1,7 +1,11 @@
 ﻿using System;
 namespace ZooManager
 {
-    public class Chick : Bird
+    /// <summary>
+    /// This class represents chicks, use the Irunner interface.
+    /// mouse: run from cat. can move only one step
+    /// </summary>
+    public class Chick : Bird, Irunner 
     {
         public Chick(string name)
         {
@@ -14,6 +18,10 @@ namespace ZooManager
              */
         }
 
+        /// <summary>
+        /// Activate all behaviours of chick.
+        /// </summary>
+        /// <returns>void</returns>
         public override void Activate()
         {
             base.Activate();
@@ -21,33 +29,37 @@ namespace ZooManager
             Flee();
         }
 
-        /* Note that our mouse is (so far) a teeny bit more strategic than our cat.
-         * The mouse looks for cats and tries to run in the opposite direction to
-         * an empty spot, but if it finds that it can't go that way, it looks around
-         * some more. However, the mouse currently still has a major weakness! He
-         * will ONLY run in the OPPOSITE direction from a cat! The mouse won't (yet)
-         * consider running to the side to escape! However, we have laid out a better
-         * foundation here for intelligence, since we actually check whether our escape
-         * was succcesful -- unlike our cats, who just assume they'll get their prey!
-         */
-        private void Flee()
+        /// <summary>
+        /// Checking four direction( in one step) and retreat if cat is detected
+        /// </summary>
+        /// <returns>the boolean represents whether the mouse retreat successfully</returns>
+        public bool Flee()
         {
             if (Behaviour.Seek(location.x, location.y, Direction.up, "cat")==1)
             {
-                if (Behaviour.Retreat(this, Direction.down)) return;
+                if (Behaviour.Retreat(this, Direction.down)) return true;
             }
             if (Behaviour.Seek(location.x, location.y, Direction.down, "cat")==1)
             {
-                if (Behaviour.Retreat(this, Direction.up)) return;
+                if (Behaviour.Retreat(this, Direction.up)) return true;
             }
             if (Behaviour.Seek(location.x, location.y, Direction.left, "cat")==1)
             {
-                if (Behaviour.Retreat(this, Direction.right)) return;
+                if (Behaviour.Retreat(this, Direction.right)) return true;
             }
             if (Behaviour.Seek(location.x, location.y, Direction.right, "cat")==1)
             {
-                if (Behaviour.Retreat(this, Direction.left)) return;
+                if (Behaviour.Retreat(this, Direction.left)) return true;
             }
+            return false;
+        }
+        /// <summary>
+        /// For avoiding errors
+        /// </summary>
+        /// <returns>void</returns>
+        public void MoveRandom()
+        {
+
         }
     }
 }

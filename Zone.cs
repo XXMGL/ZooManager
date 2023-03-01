@@ -1,6 +1,9 @@
 ﻿using System;
 namespace ZooManager
 {
+    /// <summary>
+    /// This class represents the zones.
+    /// </summary>
     public class Zone
     {
         private Animal _occupant = null;
@@ -16,7 +19,10 @@ namespace ZooManager
         }
 
         public Point location;
-
+        /// <summary>
+        /// this is method for setting emojis on zones
+        /// </summary>
+        /// <returns>the string of emoji</returns>
         public string emoji
         {
             get
@@ -25,7 +31,10 @@ namespace ZooManager
                 return occupant.emoji;
             }
         }
-
+        /// <summary>
+        /// this is method for getting reaction time of the zone
+        /// </summary>
+        /// <returns>the string of the reaction time</returns>
         public string rtLabel
         {
             get

@@ -5,16 +5,21 @@ namespace ZooManager
 {
     public static class Game
     {
+        //The default size of the zones
         static public int numCellsX = 4;
         static public int numCellsY = 4;
-
+        //The maximum size of the zones
         static private int maxCellsX = 10;
         static private int maxCellsY = 10;
 
-
+        //Create a list for zone and a place for putting holdingpen
         static public List<List<Zone>> animalZones = new List<List<Zone>>();
         static public Zone holdingPen = new Zone(-1, -1, null);
 
+        /// <summary>
+        /// Set up the empty game zone
+        /// </summary>
+        /// <returns>void</returns>
         static public void SetUpGame()
         {
             for (var y = 0; y < numCellsY; y++)
@@ -26,6 +31,11 @@ namespace ZooManager
             }
         }
 
+        /// <summary>
+        /// Add zones on specific direction. on left or bottom
+        /// </summary>     
+        /// <param name="d">The direction to add zones</param>
+        /// <returns>void</returns>
         static public void AddZones(Direction d)
         {
             if (d == Direction.down || d == Direction.up)
@@ -38,7 +48,6 @@ namespace ZooManager
                 }
                 numCellsY++;
                 if (d == Direction.down) animalZones.Add(rowList);
-                // if (d == Direction.up) animalZones.Insert(0, rowList);
             }
             else // must be left or right...
             {
@@ -46,13 +55,17 @@ namespace ZooManager
                 for (var y = 0; y < numCellsY; y++)
                 {
                     var rowList = animalZones[y];
-                    // if (d == Direction.left) rowList.Insert(0, new Zone(null));
                     if (d == Direction.right) rowList.Add(new Zone(numCellsX, y, null));
                 }
                 numCellsX++;
             }
         }
 
+        /// <summary>
+        /// Get the clicked animal and add it to the holding area
+        /// </summary>
+        /// <param name="clickedZone">The zone where is clicked</param>        
+        /// <returns>void</returns>
         static public void ZoneClick(Zone clickedZone)
         {
             Console.Write("Got animal ");
@@ -87,6 +100,11 @@ namespace ZooManager
             }
         }
 
+        /// <summary>
+        /// Add animal to target zone and activate it.
+        /// </summary>
+        /// <param name="animalType">The type of holding animal</param>        
+        /// <returns>void</returns>
         static public void AddAnimalToHolding(string animalType)
         {
             if (holdingPen.occupant != null) return;

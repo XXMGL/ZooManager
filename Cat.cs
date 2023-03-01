@@ -2,7 +2,11 @@
 
 namespace ZooManager
 {
-    public class Cat : Animal
+    /// <summary>
+    /// This class represents mouse, use the Irunner and Iattacker interface.
+    /// mouse: run from raptor. will attack mouse and chick. can only move one step when running or attacking.
+    /// </summary>
+    public class Cat : Animal, Irunner , Iattacker
     {
         public Cat(string name)
         {
@@ -12,6 +16,10 @@ namespace ZooManager
             reactionTime = new Random().Next(1, 6); // reaction time 1 (fast) to 5 (medium)
         }
 
+        /// <summary>
+        /// Activate all behaviours of cat.
+        /// </summary>
+        /// <returns>void</returns>
         public override void Activate()
         {
             base.Activate();
@@ -20,14 +28,10 @@ namespace ZooManager
             Hunt();
         }
 
-        /* Note that our cat is currently not very clever about its hunting.
-         * It will always try to attack "up" and will only seek "down" if there
-         * is no mouse above it. This does not affect the cat's effectiveness
-         * very much, since the overall logic here is "look around for a mouse and
-         * attack the first one you see." This logic might be less sound once the
-         * cat also has a predator to avoid, since the cat may not want to run in
-         * to a square that sets it up to be attacked!
-         */
+        /// <summary>
+        /// Checking four direction( in one step) and attack if chick/mouse is detected
+        /// </summary>
+        /// <returns>void</returns>
         public void Hunt()
         {
             if (Behaviour.Seek(location.x, location.y, Direction.up, "mouse")==1)
@@ -51,7 +55,27 @@ namespace ZooManager
                 Behaviour.Attack(this, Direction.right);
             }
         }
-        private bool Flee()
+        /// <summary>
+        /// For avoiding errors
+        /// </summary>
+        /// <returns>void</returns>
+        public void Fly()
+        {
+
+        }
+        /// <summary>
+        /// For avoiding errors
+        /// </summary>
+        /// <returns>void</returns>
+        public void MoveRandom()
+        {
+
+        }
+        /// <summary>
+        /// Checking four direction( in one step) and retreat if raptor is detected
+        /// </summary>
+        /// <returns>the boolean represents whether the mouse retreat successfully</returns>
+        public bool Flee()
         {
             if (Behaviour.Seek(location.x, location.y, Direction.up, "Raptor")==1)
             {

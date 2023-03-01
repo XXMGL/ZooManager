@@ -4,7 +4,11 @@ namespace ZooManager
 {
     public static class Behaviour
     {
-
+        /// <summary>
+        /// Checking all zones and activate detected animals
+        /// </summary>
+        /// <param name="r">The reaction time of animals. This will decide which animal move first.</param>
+        /// <returns>void</returns>
         static public void ActivateAnimals()
         {
             for (var r = 1; r < 11; r++) // reaction times from 1 to 10
@@ -22,7 +26,14 @@ namespace ZooManager
                 }
             }
         }
-
+        /// <summary>
+        /// Checking all zones on one direction and get the distance if there is something detected
+        /// </summary>
+        /// <param name="x">The animal location on x axis</param>        
+        /// <param name="y">The animal location on y axis</param>
+        /// <param name="d">The detection direction</param>
+        /// <param name="target">The method will return a value if it detects the target</param>
+        /// <returns>the distance to the target</returns>
         static public int Seek(int x, int y, Direction d, string target)
         {
             int distance = 0;
@@ -59,71 +70,19 @@ namespace ZooManager
                     {
                         return distance;
                     }
-                }
-                
-                    
-            }
-           /* if (y == 0 || y == Game.numCellsY - 1 && x > 0 && x < Game.numCellsX - 1)
-            {
-                while (x > 0 && x < Game.numCellsX - 1)
-                {
-                    switch (d)
-                    {
-                        case Direction.left:
-                            x--;
-                            break;
-                        case Direction.right:
-                            x++;
-                            break;
-                    }
-                    distance++;
-                    if (Game.animalZones[y][x].occupant != null)
-                    {
-                        if (Game.animalZones[y][x].occupant.species == target)
-                        {
-                            return distance;
-                        }
-                    }
-                }
-            }
-
-            if (x == 0 || x == Game.numCellsX - 1 && y > 0 && y < Game.numCellsY - 1)
-            {
-                while (y > 0 && y < Game.numCellsY - 1)
-                {
-                    switch (d)
-                    {
-                        case Direction.up:
-                            y--;
-                            break;
-                        case Direction.down:
-                            y++;
-                            break;
-                    }
-                    distance++;
-                    if (Game.animalZones[y][x].occupant != null)
-                    {
-                        if (Game.animalZones[y][x].occupant.species == target)
-                        {
-                            return distance;
-                        }
-                    }
-                }
-            }*/
-                   
-                
-                           
+                }                                   
+            }                                                                
             if (y < 0 || x < 0 || y > Game.numCellsY - 1 || x > Game.numCellsX - 1) return 0;
             if (Game.animalZones[y][x].occupant == null) return 0;
             return 0;
         }
 
-        /* This method currently assumes that the attacker has determined there is prey
-         * in the target direction. In addition to bug-proofing our program, can you think
-         * of creative ways that NOT just assuming the attack is on the correct target (or
-         * successful for that matter) could be used?
-         */
-
+        /// <summary>
+        /// Make a attack on one direction and move the animal to target area
+        /// </summary>
+        /// <param name="attacker">the animal name which will make an attack</param>        
+        /// <param name="d">The attack direction</param>
+        /// <returns>void</returns>
         static public void Attack(Animal attacker, Direction d)
         {
             Console.WriteLine($"{attacker.name} is attacking {d.ToString()}");
@@ -148,15 +107,12 @@ namespace ZooManager
             Game.animalZones[y][x].occupant = null;
         }
 
-        /* We can't make the same assumptions with this method that we do with Attack, since
-         * the animal here runs AWAY from where they spotted their target (using the Seek method
-         * to find a predator in this case). So, we need to figure out if the direction that the
-         * retreating animal wants to move is valid. Is movement in that direction still on the board?
-         * Is it just going to send them into another animal? With our cat & mouse setup, one is the
-         * predator and the other is prey, but what happens when we have an animal who is both? The animal
-         * would want to run away from their predators but towards their prey, right? Perhaps we can generalize
-         * this code (and the Attack and Seek code) to help our animals strategize more...
-         */
+        /// <summary>
+        /// Run from attacker,take one step backward in the direction where attack come from.
+        /// </summary>
+        /// <param name="runner">The animal name which will retreat</param>        
+        /// <param name="d">The direction where attack come from</param>
+        /// <returns>return a boolean if retreat successfully</returns>
 
         static public bool Retreat(Animal runner, Direction d)
         {
@@ -167,12 +123,6 @@ namespace ZooManager
             switch (d)
             {
                 case Direction.up:
-                    /* The logic below uses the "short circuit" property of Boolean &&.
-                     * If we were to check our list using an out-of-range index, we would
-                     * get an error, but since we first check if the direction that we're modifying is
-                     * within the ranges of our lists, if that check is false, then the second half of
-                     * the && is not evaluated, thus saving us from any exceptions being thrown.
-                     */
                     if (y > 0 && Game.animalZones[y - 1][x].occupant == null)
                     {
                         Game.animalZones[y - 1][x].occupant = runner;
@@ -180,14 +130,6 @@ namespace ZooManager
                         return true; // retreat was successful
                     }
                     return false; // retreat was not successful
-                /* Note that in these four cases, in our conditional logic we check
-                 * for the animal having one square between itself and the edge that it is
-                 * trying to run to. For example,in the above case, we check that y is greater
-                 * than 0, even though 0 is a valid spot on the list. This is because when moving
-                 * up, the animal would need to go from row 1 to row 0. Attempting to go from row 0
-                 * to row -1 would cause a runtime error. This is a slightly different way of testing
-                 * if 
-                 */
                 case Direction.down:
                     if (y < Game.numCellsY - 1 && Game.animalZones[y + 1][x].occupant == null)
                     {
@@ -215,6 +157,13 @@ namespace ZooManager
             }
             return false; // fallback
         }
+        /// <summary>
+        /// Run from attacker,take multiple steps backward in the direction where attack come from.
+        /// </summary>
+        /// <param name="runner">The animal name which will retreat</param>        
+        /// <param name="d">The direction where attack come from</param>
+        /// <param name="distance">How many steps it can move</param>
+        /// <returns>return a integer of how many steps runner takes</returns>
         static public int Move(Animal runner, Direction d, int distance)
         {
             int movestep = 0;
@@ -264,9 +213,17 @@ namespace ZooManager
             }
             return movestep;
         }
+
+        /// <summary>
+        /// Make a attack multiple steps away.
+        /// </summary>
+        /// <param name="attacker">The animal name which will make an attack</param>        
+        /// <param name="d">The direction where attack aim to</param>
+        /// <param name="distance">How many steps it can move</param>
+        /// <returns>void</returns>
         static public void fly(Animal attacker, Direction d)
         {
-            Console.WriteLine($"{attacker.name} is attacking {d.ToString()}");
+            
             int x = attacker.location.x;
             int y = attacker.location.y;
 

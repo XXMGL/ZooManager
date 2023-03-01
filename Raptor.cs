@@ -2,7 +2,11 @@
 
 namespace ZooManager
 {
-    public class Raptor : Bird
+    /// <summary>
+    /// This class represents raptors, use the Iattacker interface.
+    /// raptor: will attack mouse and cats, can move 2 steps when detect a prey
+    /// </summary>
+    public class Raptor : Bird, Iattacker 
     {
         private bool isHunt=false;
         public Raptor(string name)
@@ -13,6 +17,10 @@ namespace ZooManager
             reactionTime = 1;
         }
 
+        /// <summary>
+        /// Activate all behaviours of raptor.
+        /// </summary>
+        /// <returns>void</returns>
         public override void Activate()
         {
             isHunt = false;
@@ -24,15 +32,11 @@ namespace ZooManager
             Fly();
         }
 
-        /* Note that our cat is currently not very clever about its hunting.
-         * It will always try to attack "up" and will only seek "down" if there
-         * is no mouse above it. This does not affect the cat's effectiveness
-         * very much, since the overall logic here is "look around for a mouse and
-         * attack the first one you see." This logic might be less sound once the
-         * cat also has a predator to avoid, since the cat may not want to run in
-         * to a square that sets it up to be attacked!
-         */
-        private void Hunt()
+        /// <summary>
+        /// Checking four direction( in one step) and attack if cat/mouse is detected
+        /// </summary>
+        /// <returns>void</returns>
+        public void Hunt()
         {
 
             if (Behaviour.Seek(location.x, location.y, Direction.up, "cat")==1 || Behaviour.Seek(location.x, location.y, Direction.up, "mouse")==1)
@@ -57,7 +61,11 @@ namespace ZooManager
             }
             
         }
-        private void Fly()
+        /// <summary>
+        /// Checking four direction( in two step) and attack if cat/mouse is detected
+        /// </summary>
+        /// <returns>void</returns>
+        public void Fly()
         {
 
             if (Behaviour.Seek(location.x, location.y, Direction.up, "cat") == 2 || Behaviour.Seek(location.x, location.y, Direction.up, "mouse") == 2)

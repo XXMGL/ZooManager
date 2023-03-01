@@ -1,6 +1,10 @@
 ﻿using System;
 namespace ZooManager
 {
+    /// <summary>
+    /// This class represents animals.
+    /// </summary>
+
     public class Animal
     {
         public string emoji;
@@ -19,5 +23,21 @@ namespace ZooManager
         {
             Console.WriteLine($"Animal {name} at {location.x},{location.y} activated");
         }
+    }
+    /// <summary>
+    /// This interface represents runner among animals.
+    /// </summary>
+    public interface Irunner
+    {
+        bool Flee();
+        void MoveRandom();
+    }
+    /// <summary>
+    /// This class represents attacker among animals.
+    /// </summary>
+    public interface Iattacker
+    {
+        void Hunt();
+        void Fly();
     }
 }
