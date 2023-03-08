@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Linq;
 namespace ZooManager
 {
     public static class Behaviour
@@ -13,7 +13,7 @@ namespace ZooManager
         {
             for (var r = 1; r < 11; r++) // reaction times from 1 to 10
             {
-                for (var y = 0; y < Game.numCellsY; y++)
+                /*for (var y = 0; y < Game.numCellsY; y++)
                 {
                     for (var x = 0; x < Game.numCellsX; x++)
                     {
@@ -23,7 +23,12 @@ namespace ZooManager
                             zone.occupant.Activate();
                         }
                     }
-                }
+                }*/
+                Game.animalZones
+    .SelectMany(zoneRow => zoneRow) // flatten 2D array into 1D
+    .Where(zone => zone.occupant != null && zone.occupant.reactionTime == r)
+    .ToList() // convert to list so we can use ForEach
+    .ForEach(zone => zone.occupant.Activate());
             }
         }
         /// <summary>
@@ -244,5 +249,17 @@ namespace ZooManager
             }
             Game.animalZones[y][x].occupant = null;
         }
+      
+    }
+    public interface IPredator
+    {
+        void Hunt(string target);
+        /*void Fly();*/
+
+    }
+    public interface IPrey
+    {
+        bool Flee(string target);
+        /*void MoveRandom();*/
     }
 }

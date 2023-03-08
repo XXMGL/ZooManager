@@ -6,10 +6,11 @@ namespace ZooManager
     /// This class represents mouse, use the Irunner and Iattacker interface.
     /// mouse: run from raptor. will attack mouse and chick. can only move one step when running or attacking.
     /// </summary>
-    public class Cat : Animal, Irunner , Iattacker
+    public class Cat : Animal
     {
         public Cat(string name)
         {
+            isHunt = false;
             emoji = "🐱";
             species = "cat";
             this.name = name;
@@ -22,17 +23,22 @@ namespace ZooManager
         /// <returns>void</returns>
         public override void Activate()
         {
+            isHunt = false;
             base.Activate();
             Console.WriteLine("I am a cat. Meow.");
-            if(Flee())return;
-            Hunt();
+            string target1 = "mouse";
+            string target2 = "Raptor";
+            if(Flee(target2))return;
+            Hunt(target1);
         }
 
         /// <summary>
         /// Checking four direction( in one step) and attack if chick/mouse is detected
         /// </summary>
         /// <returns>void</returns>
-        public void Hunt()
+        
+        
+        /*public void Hunt()
         {
             if (Behaviour.Seek(location.x, location.y, Direction.up, "mouse")==1)
             {
@@ -54,28 +60,28 @@ namespace ZooManager
                 Console.WriteLine("I find a rat");
                 Behaviour.Attack(this, Direction.right);
             }
-        }
-        /// <summary>
+        }*/
+       /* /// <summary>
         /// For avoiding errors
         /// </summary>
         /// <returns>void</returns>
         public void Fly()
         {
 
-        }
-        /// <summary>
+        }*/
+        /*/// <summary>
         /// For avoiding errors
         /// </summary>
         /// <returns>void</returns>
         public void MoveRandom()
         {
 
-        }
+        }*/
         /// <summary>
         /// Checking four direction( in one step) and retreat if raptor is detected
         /// </summary>
         /// <returns>the boolean represents whether the mouse retreat successfully</returns>
-        public bool Flee()
+        /*public bool Flee()
         {
             if (Behaviour.Seek(location.x, location.y, Direction.up, "Raptor")==1)
             {
@@ -94,7 +100,7 @@ namespace ZooManager
                 if (Behaviour.Retreat(this, Direction.left)) return true;
             }
             return false;
-        }
+        }*/
     }
 }
 

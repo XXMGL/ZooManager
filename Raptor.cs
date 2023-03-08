@@ -6,11 +6,12 @@ namespace ZooManager
     /// This class represents raptors, use the Iattacker interface.
     /// raptor: will attack mouse and cats, can move 2 steps when detect a prey
     /// </summary>
-    public class Raptor : Bird, Iattacker 
+    public class Raptor : Bird
     {
-        private bool isHunt=false;
         public Raptor(string name)
         {
+            isHunt = false;
+            isfly = false;
             emoji = "🦅";
             species = "Raptor";
             this.name = name;
@@ -24,19 +25,23 @@ namespace ZooManager
         public override void Activate()
         {
             isHunt = false;
+            isfly = false;
             base.Activate();
             Console.WriteLine("I am a Raptor. I'll eat cats and mouse.");
-            Hunt();
-            if (isHunt == true) return;
+            string target1 = "cat";
+            string target2 = "mouse";
+            Hunt(target1);                    
+            Hunt(target2);                    
             Console.WriteLine("Raptor is flying");
-            Fly();
+            Fly(target1);
+            Fly(target2);
         }
 
         /// <summary>
         /// Checking four direction( in one step) and attack if cat/mouse is detected
         /// </summary>
         /// <returns>void</returns>
-        public void Hunt()
+       /* public void Hunt()
         {
 
             if (Behaviour.Seek(location.x, location.y, Direction.up, "cat")==1 || Behaviour.Seek(location.x, location.y, Direction.up, "mouse")==1)
@@ -60,12 +65,12 @@ namespace ZooManager
                 isHunt = true;
             }
             
-        }
+        }*/
         /// <summary>
         /// Checking four direction( in two step) and attack if cat/mouse is detected
         /// </summary>
         /// <returns>void</returns>
-        public void Fly()
+        /*public void Fly()
         {
 
             if (Behaviour.Seek(location.x, location.y, Direction.up, "cat") == 2 || Behaviour.Seek(location.x, location.y, Direction.up, "mouse") == 2)
@@ -84,7 +89,7 @@ namespace ZooManager
             {
                 Behaviour.fly(this, Direction.right);
             }
-        }
+        }*/
     }
 }
 

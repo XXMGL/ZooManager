@@ -5,7 +5,7 @@ namespace ZooManager
     /// This class represents chicks, use the Irunner interface.
     /// mouse: run from cat. can move only one step
     /// </summary>
-    public class Chick : Bird, Irunner 
+    public class Chick : Bird 
     {
         public Chick(string name)
         {
@@ -26,14 +26,15 @@ namespace ZooManager
         {
             base.Activate();
             Console.WriteLine("I am a mouse. Squeak.");
-            Flee();
+            string target = "cat";
+            Flee(target);
         }
 
         /// <summary>
         /// Checking four direction( in one step) and retreat if cat is detected
         /// </summary>
         /// <returns>the boolean represents whether the mouse retreat successfully</returns>
-        public bool Flee()
+        /*public bool Flee()
         {
             if (Behaviour.Seek(location.x, location.y, Direction.up, "cat")==1)
             {
@@ -52,15 +53,15 @@ namespace ZooManager
                 if (Behaviour.Retreat(this, Direction.left)) return true;
             }
             return false;
-        }
-        /// <summary>
+        }*/
+      /*  /// <summary>
         /// For avoiding errors
         /// </summary>
         /// <returns>void</returns>
         public void MoveRandom()
         {
 
-        }
+        }*/
     }
 }
 

@@ -5,7 +5,7 @@ namespace ZooManager
     /// This class represents mouse, use the Irunner interface.
     /// mouse: run from cat and raptor. can move 2 steps when find a raptor
     /// </summary>
-    public class Mouse : Animal, Irunner 
+    public class Mouse : Animal
     {
         public Mouse(string name)
         {
@@ -23,15 +23,17 @@ namespace ZooManager
         {
             base.Activate();
             Console.WriteLine("I am a mouse. Squeak.");
+            string target1 = "cat";
+            Flee(target1);
             MoveRandom();
-            Flee();
+            
         }
 
         /// <summary>
         /// Checking four direction( in one step) and retreat if cat is detected
         /// </summary>
         /// <returns>the boolean represents whether the mouse retreat successfully</returns>
-        public bool Flee()
+       /* public bool Flee()
         {
             if (Behaviour.Seek(location.x, location.y, Direction.up, "cat")==1)
             {
@@ -51,7 +53,7 @@ namespace ZooManager
             }
             return false;
         }
-
+*/
         /// <summary>
         /// Checking four direction( in two steps ) and move two steps randomly if raptor is detected
         /// </summary>
