@@ -19,6 +19,14 @@ namespace ZooManager
     .ToList() // convert to list so we can use ForEach
     .ForEach(zone => zone.occupant.Activate());
             }
+            for(var r = 1; r < 11; r++)
+            {
+                Game.animalZones
+   .SelectMany(zoneRow => zoneRow) // flatten 2D array into 1D
+   .Where(zone => zone.occupant != null && zone.occupant.isActivated == true)
+   .ToList() // convert to list so we can use ForEach
+   .ForEach(zone => zone.occupant.isActivated=false);//Set all activated creature to be able to be activated next time
+            }
         }
         /// <summary>
         /// Checking all zones on one direction and get the distance if there is something detected

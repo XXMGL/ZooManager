@@ -9,11 +9,9 @@ namespace ZooManager
     public class Animal : Creature,IPredator, IPrey
     {
       
-        public bool isActivated = false;
-       
-
         
-        public bool Flee(string target)
+      
+            public bool Flee(string target)
         {
             if (Behaviour.Seek(location.x, location.y, Direction.up, target) == 1)
             {
