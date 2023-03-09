@@ -12,18 +12,7 @@ namespace ZooManager
         static public void ActivateAnimals()
         {
             for (var r = 1; r < 11; r++) // reaction times from 1 to 10
-            {
-                /*for (var y = 0; y < Game.numCellsY; y++)
-                {
-                    for (var x = 0; x < Game.numCellsX; x++)
-                    {
-                        var zone = Game.animalZones[y][x];
-                        if (zone.occupant != null && zone.occupant.reactionTime == r)
-                        {
-                            zone.occupant.Activate();
-                        }
-                    }
-                }*/
+            {             
                 Game.animalZones
     .SelectMany(zoneRow => zoneRow) // flatten 2D array into 1D
     .Where(zone => zone.occupant != null && zone.occupant.reactionTime == r)
@@ -81,6 +70,56 @@ namespace ZooManager
             if (Game.animalZones[y][x].occupant == null) return 0;
             return 0;
         }
+        /// <summary>
+        /// Checking all zones on one direction and get the distance if there is something detected, this is specially for aliens
+        /// </summary>
+        /// <param name="x">The animal location on x axis</param>        
+        /// <param name="y">The animal location on y axis</param>
+        /// <param name="d">The detection direction</param>
+        /// <param name="target">The method will return a value if it detects the target</param>
+        /// <returns>the distance to the target</returns>
+        static public int AlienSeek(int x, int y, Direction d, string target)
+        {
+            int distance = 0;
+            if ((y == 0 && d == Direction.up)
+                || (y == Game.numCellsY - 1 && d == Direction.down)
+                || (x == 0 && d == Direction.left)
+                || (x == Game.numCellsX - 1 && d == Direction.right)) return 0;
+            while (y >= 0 && x >= 0 && y <= Game.numCellsY - 1 && x <= Game.numCellsX - 1)
+            {
+
+                switch (d)
+                {
+                    case Direction.up:
+                        if (y == 0) return 0;
+                        y--;
+                        break;
+                    case Direction.down:
+                        if (y == Game.numCellsY - 1) return 0;
+                        y++;
+                        break;
+                    case Direction.left:
+                        if (x == 0) return 0;
+                        x--;
+                        break;
+                    case Direction.right:
+                        if (x == Game.numCellsX - 1) return 0;
+                        x++;
+                        break;
+                }
+                distance++;
+                if (Game.animalZones[y][x].occupant != null)
+                {
+                    if (Game.animalZones[y][x].occupant.HomePlanet == target)
+                    {
+                        return distance;
+                    }
+                }
+            }
+            if (y < 0 || x < 0 || y > Game.numCellsY - 1 || x > Game.numCellsX - 1) return 0;
+            if (Game.animalZones[y][x].occupant == null) return 0;
+            return 0;
+        }
 
         /// <summary>
         /// Make a attack on one direction and move the animal to target area
@@ -88,7 +127,7 @@ namespace ZooManager
         /// <param name="attacker">the animal name which will make an attack</param>        
         /// <param name="d">The attack direction</param>
         /// <returns>void</returns>
-        static public void Attack(Animal attacker, Direction d)
+        static public void Attack(Creature attacker, Direction d)
         {
             Console.WriteLine($"{attacker.name} is attacking {d.ToString()}");
             int x = attacker.location.x;
@@ -112,6 +151,7 @@ namespace ZooManager
             Game.animalZones[y][x].occupant = null;
         }
 
+
         /// <summary>
         /// Run from attacker,take one step backward in the direction where attack come from.
         /// </summary>
@@ -119,7 +159,7 @@ namespace ZooManager
         /// <param name="d">The direction where attack come from</param>
         /// <returns>return a boolean if retreat successfully</returns>
 
-        static public bool Retreat(Animal runner, Direction d)
+        static public bool Retreat(Creature runner, Direction d)
         {
             Console.WriteLine($"{runner.name} is retreating {d.ToString()}");
             int x = runner.location.x;

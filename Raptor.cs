@@ -10,6 +10,7 @@ namespace ZooManager
     {
         public Raptor(string name)
         {
+            HomePlanet = "Earth";
             isHunt = false;
             isfly = false;
             emoji = "🦅";
@@ -24,6 +25,7 @@ namespace ZooManager
         /// <returns>void</returns>
         public override void Activate()
         {
+            
             isHunt = false;
             isfly = false;
             base.Activate();

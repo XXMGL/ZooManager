@@ -10,6 +10,7 @@ namespace ZooManager
     {
         public Cat(string name)
         {
+            HomePlanet = "Earth";
             isHunt = false;
             emoji = "🐱";
             species = "cat";
@@ -23,6 +24,7 @@ namespace ZooManager
         /// <returns>void</returns>
         public override void Activate()
         {
+            
             isHunt = false;
             base.Activate();
             Console.WriteLine("I am a cat. Meow.");

@@ -6,8 +6,8 @@ namespace ZooManager
     /// </summary>
     public class Zone
     {
-        private Animal _occupant = null;
-        public Animal occupant
+        private Creature _occupant = null;
+        public Creature occupant
         {
             get { return _occupant; }
             set {
@@ -44,7 +44,7 @@ namespace ZooManager
             }
         }
 
-        public Zone(int x, int y, Animal animal)
+        public Zone(int x, int y, Creature animal)
         {
             location.x = x;
             location.y = y;

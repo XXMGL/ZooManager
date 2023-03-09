@@ -9,6 +9,7 @@ namespace ZooManager
     {
         public Mouse(string name)
         {
+            HomePlanet = "Earth";
             emoji = "🐭";
             species = "mouse";
             this.name = name; // "this" to clarify instance vs. method parameter
@@ -21,6 +22,7 @@ namespace ZooManager
         /// <returns>void</returns>
         public override void Activate()
         {
+           
             base.Activate();
             Console.WriteLine("I am a mouse. Squeak.");
             string target1 = "cat";

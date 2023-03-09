@@ -1,28 +1,18 @@
 ﻿using System;
+
 namespace ZooManager
 {
     /// <summary>
     /// This class represents animals.
     /// </summary>
 
-    public class Animal : IPredator, IPrey
+    public class Animal : Creature,IPredator, IPrey
     {
-        public string emoji;
-        public string species;
-        public string name;
-        public int reactionTime = 5; // default reaction time for animals (1 - 10)
-        
-        public Point location;
-        public bool isHunt = false;
-        public void ReportLocation()
-        {
-            Console.WriteLine($"I am at {location.x},{location.y}");
-        }
+      
+        public bool isActivated = false;
+       
 
-        virtual public void Activate()
-        {
-            Console.WriteLine($"Animal {name} at {location.x},{location.y} activated");
-        }
+        
         public bool Flee(string target)
         {
             if (Behaviour.Seek(location.x, location.y, Direction.up, target) == 1)
@@ -43,10 +33,7 @@ namespace ZooManager
             }
             return false;
         }
-      /*  public void MoveRandom()
-        {
-
-        }*/
+ 
         public void Hunt(string target)
         {
             if (isHunt == true) return;
@@ -77,21 +64,6 @@ namespace ZooManager
         }
         
     }
-    /* /// <summary>
-     /// This interface represents runner among animals.
-     /// </summary>
-     public interface Irunner
-     {
-         bool Flee();
-         void MoveRandom();
-     }
-     /// <summary>
-     /// This class represents attacker among animals.
-     /// </summary>
-     public interface Iattacker
-     {
-         void Hunt();
-         void Fly();
-     }*/
+
    
 }
